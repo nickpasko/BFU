@@ -15,9 +15,10 @@ namespace ConsoleApplication1
             phrasesList.Add("Давай досвидания, ");
             phrasesList.Add("Олалэй, ");
             phrasesList.Add("Я люблю курсы, ");
+            var rnd = new Random();
             for (int i = 0; i < args.Length; i++)
             {
-                Console.WriteLine(phrasesList[(new Random().Next(0,phrasesList.Count))]+args[i].ToString()+".");
+                Console.WriteLine(phrasesList[rnd.Next(0, phrasesList.Count)]+args[i].ToString()+".");
             }
 
 
