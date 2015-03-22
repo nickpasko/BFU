@@ -21,7 +21,7 @@ namespace Friends
             List<Friends> friendses = new List<Friends>();
             List<string> existingFriends;
             string[] lines = File.ReadAllLines(
-                    "C://Users//Rusik//Source//Workspaces//MyAwesomeProjects//Projects//Friends//bin//Friends.tsv");
+                    "Friends.tsv");
 
             for (int i = 0; i < lines.Length; i++)
             {
@@ -47,7 +47,7 @@ namespace Friends
                 });
             }
 
-            using (StreamWriter file = new StreamWriter(@"C://Users//Rusik//Source//Workspaces//MyAwesomeProjects//Projects//Friends//bin//Result.txt"))
+            using (StreamWriter file = new StreamWriter(@"Result.txt"))
             {
                 foreach (var friend in friendses)
                 {
