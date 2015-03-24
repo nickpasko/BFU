@@ -4,88 +4,115 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
-namespace HelpToSP
+namespace MindTasks
 {
 	class Program
 	{
-		static void Main()
+		private static StreamReader _reader;
+		private static StreamWriter _writer;
+
+		static void Main(string[] args)
 		{
-			SolveProblem();
+			try
+			{
+				_reader = new StreamReader(args[0], System.Text.Encoding.Default);
+				_writer = new StreamWriter(args[1]);
+				SolveProblem();
+			}
+			catch (ArgumentNullException exception1)
+			{
+				Console.WriteLine(exception1.Message);
+			}
+			catch (FileNotFoundException exception2)
+			{
+				Console.WriteLine(exception2.Message);
+			}
+			catch (IndexOutOfRangeException exception3)
+			{
+				Console.WriteLine("Wrong number of arguments.");
+			}
+			Console.ReadKey();
 		}
 
 		static void SolveProblem()
 		{
-			SearchInGraph search = new SearchInGraph();
+			SearchInGraph search = new SearchInGraph(_reader, _writer);
 			search.BFS();
 		}
 	}
 
 	class SearchInGraph
 	{
-		private static StreamReader _reader = new StreamReader("input.txt", System.Text.Encoding.Default);
-		private static StreamWriter _writer = new StreamWriter("output.txt");
+		private StreamReader _reader;
+		private StreamWriter _writer;
+
+		public SearchInGraph(StreamReader _reader, StreamWriter _writer)
+		{
+			this._reader = _reader;
+			this._writer = _writer;
+		}
 
 		private Queue<Person> queue = new Queue<Person>();
-		private Dictionary<string, bool> was = new Dictionary<string, bool>();
-		private Dictionary<string, int> distance = new Dictionary<string, int>();
-		private Dictionary<string, Person> graph = new Dictionary<string, Person>();
-		
+		private Dictionary<string, PersonData> graph = new Dictionary<string, PersonData>();
+
 		public void BFS()
 		{
 			InputInformation information = new InputInformation();
-			information.ReadInput(_reader, _writer);
-			graph = information.GetGraph();
+			graph = information.ReadInput(_reader, _writer);
 
 			Person person = new Person();
 			person.Name = information.Name1;
-			person.children = graph[person.Name].children;
+			person.children = graph[person.Name].Friend.children;
 
 			queue.Enqueue(person);
 
-			foreach (var g in graph.Keys)
-			{
-				was.Add(g, false);
-				distance.Add(g, 0);
-			}
-			was[person.Name] = true;
+			graph[person.Name].Was = true;
 
 			while (queue.Count > 0)
 			{
+
 				Person p = queue.Peek();
-				//Console.WriteLine(p.Name);
+
+				//Thread.Sleep(1000);
 
 				queue.Dequeue();
+
 				if (!graph.ContainsKey(p.Name)) // If graph doesn't contain Key = p.Name
 				{
 					continue;
 				}
-				for (int i = 0; i < graph[p.Name].children.Count; i++)
+				for (int i = 0; i < graph[p.Name].Friend.children.Count; i++)
 				{
-					Person to = graph[p.Name].children[i];
-					if (was.ContainsKey(to.Name))
+					Person to = graph[p.Name].Friend.children[i];
+					if (graph.ContainsKey(to.Name))
 					{
-						if (was[to.Name] == false)
+						if (graph[to.Name].Was == false)
 						{
-							was[to.Name] = true;
+							graph[to.Name].Was = true;
 							queue.Enqueue(to);
-							distance[to.Name] = distance[p.Name] + 1;
+							graph[to.Name].Distance = graph[p.Name].Distance + 1;
 						}
 					}
 					else
 					{
-						was.Add(to.Name, true);
-						queue.Enqueue(to);
-						distance[to.Name] = distance[p.Name] + 1;
+						PersonData personData = new PersonData();
+						//personData.Friend = new Person();
+						personData.Was = true;
+						graph.Add(to.Name, personData);
+
+						graph[to.Name].Distance = graph[p.Name].Distance + 1;
 					}
 				}
 			}
-			Message(information.Name1, information.Name2, distance[information.Name2]);
+			Message(information.Name1, information.Name2, graph[information.Name2].Distance);
+
 
 			_reader.Close();
 			_writer.Close();
 		}
-
+		
 		public void Message(string name1, string name2, int dist)
 		{
 			if (dist != 0)
@@ -106,17 +133,15 @@ namespace HelpToSP
 
 	class InputInformation
 	{
+		private Dictionary<string, PersonData> graph = new Dictionary<string, PersonData>();
 
 		public string Name1 { get; set; }
 		public string Name2 { get; set; }
 
-		private Dictionary<string, Person> graph = new Dictionary<string, Person>();
-
-		public void ReadInput(StreamReader _reader, StreamWriter _writer)
+		public Dictionary<string, PersonData> ReadInput(StreamReader _reader, StreamWriter _writer)
 		{
 			var inputString = _reader.ReadLine().Split('\t');
 			string[] meAndMyFriends;
-			
 
 			Name1 = inputString[0];
 			Name2 = inputString[1];
@@ -144,14 +169,11 @@ namespace HelpToSP
 					}
 
 					person.children = friends;
-					graph.Add(person.Name, person);
+					PersonData personData = new PersonData();
+					personData.Friend = person;
+					graph.Add(person.Name, personData);
 				}
 			}
-		}
-		
-
-		public Dictionary<string, Person> GetGraph()
-		{
 			return graph;
 		}
 	}
@@ -160,5 +182,14 @@ namespace HelpToSP
 	{
 		public string Name { get; set; }
 		public List<Person> children = new List<Person>();
+	}
+
+	class PersonData
+	{
+		public bool Was { get; set; }
+
+		public int Distance { get; set; }
+
+		public Person Friend { get; set; }
 	}
 }
