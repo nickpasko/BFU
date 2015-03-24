@@ -1,9 +1,0 @@
-Git clients:
-TortoiseGit
-Git Extensions
-GitHub
-
-
-Задача для продвинутых: определить, что было в первоначальной версии этого файла.
-___________________
-ответы присылать на nickpasko@mail.ru или slr.sulik@gmail.com
