@@ -16,44 +16,62 @@ namespace Friends
 
     class Program
     {
+        private static StreamReader reader; 
+        private static StreamWriter writer;
+
         static void Main(string[] args)
         {
-            List<Friends> friendses = new List<Friends>();
-            List<string> existingFriends;
-            string[] lines = File.ReadAllLines(
-                    "Friends.tsv");
+            reader = new StreamReader(args[0]);
+            writer = new StreamWriter(args[1]);
 
-            for (int i = 0; i < lines.Length; i++)
+            List<Friends> friendses = new List<Friends>();
+            Dictionary<string, List<string>> existingFriends = new Dictionary<string, List<string>>();
+            string linesOfFile = reader.ReadToEnd();
+            string[] namesOfLines = linesOfFile.Split(new string[]{"\r\n"},StringSplitOptions.None).ToArray();
+
+            foreach (var s in namesOfLines)
             {
-                existingFriends = new List<string>();
-                string[] names = lines[i].Split('\t').Select(X => X.ToLower()).ToArray();
-                for (int j = 1; j < names.Length; j++)
+                List<string> splitedLines = s.Split('\t').ToList();
+                string firtsName = splitedLines[0];
+                splitedLines.Remove(splitedLines[0]);
+                existingFriends.Add(firtsName,splitedLines);
+            }
+
+            foreach (var friend in existingFriends)
+            {
+                List<string> existingFriendsList = new List<string>();
+
+                foreach (var ff in friend.Value)
                 {
-                    existingFriends.Add(names[j]);
+                    existingFriendsList.Add(ff);
                 }
-                for (int k = 0; k < lines.Length; k++)
+
+                foreach (var existingFriend in existingFriends)
                 {
-                    if (lines[k].Split('\t').Select(X => X.ToLower()).Contains(names[0]))
+
+                    if (existingFriend.Value.Contains(friend.Key))
                     {
-                        existingFriends.Add(lines[k].Split('\t').Select(X => X.ToLower()).ToArray()[0]);
+                        existingFriendsList.Add(existingFriend.Key);
                     }
                 }
-                existingFriends.Remove(names[0]);
-                var uniq = existingFriends.Distinct().ToList();
+
+                var uniqList = existingFriendsList.Distinct().ToList();
+
                 friendses.Add(new Friends()
                 {
-                    name = names[0],
-                    numberOfFriends = uniq.Count
+                    name = friend.Key,
+                    numberOfFriends = uniqList.Count
                 });
             }
 
-            using (StreamWriter file = new StreamWriter(@"Result.txt"))
+            using (writer)
             {
                 foreach (var friend in friendses)
                 {
-                    file.WriteLine(friend.name+" - "+friend.numberOfFriends);
+                    writer.WriteLine(friend.name+" - "+friend.numberOfFriends);
                 }
             }
+            
         }
     }
 }
