@@ -7,7 +7,6 @@ namespace Hunters
         private int _year;
         private int _date;
         private int _month;
-
         public Data(string s)
         {
             var _data = s.Split('-').Select(X => int.Parse(X)).ToArray();

@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Hunters
-{class Region
+{
+    class Region
     {
-        internal struct StatisticData
+        public struct StatisticData
         {
             private Data _data;
             private double _numberOfCrudleInStart;
@@ -38,9 +39,9 @@ namespace Hunters
 
         
         private string _nameOfRegion;
-        private int _minNumberOfCrudle;
-        private int _maxNumberOfCrudle;
-        private int _currentNumberOfCrudle;
+        private double _minNumberOfCrudle;
+        private double _maxNumberOfCrudle;
+        private double _currentNumberOfCrudle;
         private List<StatisticData> _statistic;
 
         public string NameOfRegion
@@ -49,19 +50,19 @@ namespace Hunters
             set { _nameOfRegion = value; }
         }
 
-        public int MinNumberOfCrudle
+        public double MinNumberOfCrudle
         {
             get { return _minNumberOfCrudle; }
             set { _minNumberOfCrudle = value; }
         }
 
-        public int MaxNumberOfCrudle
+        public double MaxNumberOfCrudle
         {
             get { return _maxNumberOfCrudle; }
             set { _maxNumberOfCrudle = value; }
         }
 
-        public int CurrentNumberOfCrudle
+        public double CurrentNumberOfCrudle
         {
             get { return _currentNumberOfCrudle; }
             set { _currentNumberOfCrudle = value; }
