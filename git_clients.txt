@@ -1,4 +1,0 @@
-﻿Git clients:
-TortoiseGit
-Git Extensions
-GitHub
