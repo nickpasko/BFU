@@ -10,6 +10,7 @@ namespace Random1
     {
         static void Main(string[] args)
         {
+            //Передача значений args ( Если он больше единицы, то пусть передаёт значения)
             Random rnd = new Random();
             for (int i = 0; i <= 10; ++i)
             {
