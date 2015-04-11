@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Random1
 {
     class Program
-    {
+    { //придумать ввод и передачу значений через arqs 
         static void Main(string[] args)
         {
             Random rnd = new Random();
