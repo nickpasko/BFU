@@ -18,14 +18,11 @@ namespace Random1
                                   "Abby", "Laila", "Sadie", "Olivia", 
                                   "Starlight", "Talla" };
 
-            // Generate random indexes for pet names.
+            // Generate random indexes for names 
             int mIndex = rnd.Next(maleNames.Length);
             int fIndex = rnd.Next(femaleNames.Length);
 
-            // Display the result.
-            /* Console.WriteLine("Suggested pet name of the day: ");
-             Console.WriteLine("   For a male:     {0}", maleNames[mIndex]);
-             Console.WriteLine("   For a female:   {0}", femaleNames[fIndex]);*/
+            // Display the result 
             Console.WriteLine("{0}\nlove", maleNames[mIndex]);
             //Console.WriteLine("love");
             Console.WriteLine("{0}", femaleNames[fIndex]);
