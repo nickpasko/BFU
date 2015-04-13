@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Random1
 {
     class Program
-    { //придумать ввод и передачу значений через arqs 
+    { //придумать ввод и передачу значений через arqs, поискать "методы и классы"
         static void Main(string (string (Char[]argsmale); string (Char[] argsfemale)) // Не знаю синтаксис
         {
             for (int i = 0; i <= 10; ++i)
