@@ -7,27 +7,26 @@ using System.Threading.Tasks;
 namespace Random1
 {
     class Program
-    {
-        static void Main(string[] args)
+    { //придумать ввод и передачу значений через arqs, поискать "методы и классы"
+        static void Main(string (string (Char[]argsmale); string (Char[] argsfemale)) // Не знаю синтаксис
         {
-            Random rnd = new Random();
             for (int i = 0; i <= 10; ++i)
-            {
-            string[] maleNames = { "Rufus", "Bear", "Dakota", "Fido", 
+            Random rnd = new Random();
+            Char argsmale = new argsmale { "Rufus", "Bear", "Dakota", "Fido", 
                                 "Vanya", "Samuel", "Koani", "Volodya", 
-                                "Prince", "Yiska" };
-            string[] femaleNames = { "Maggie", "Penny", "Saya", "Princess", 
+                                "Prince", "Yiska" }; // поле, но используется как тип
+            Char argsfema = new argsfemale { "Maggie", "Penny", "Saya", "Princess", 
                                   "Abby", "Laila", "Sadie", "Olivia", 
                                   "Starlight", "Talla" };
 
-            // Generate random indexes for names.
-            int mIndex = rnd.Next(maleNames.Length);
-            int fIndex = rnd.Next(femaleNames.Length);
+            // Generate random indexes for names 
+            char mIndex = rnd.Next(maleNames.Length); // ошибка, что-то другое должно быть?
+            char fIndex = rnd.Next(femaleNames.Length);
 
-            // Display the result.
-            Console.WriteLine("{0}\nlove", maleNames[mIndex]);
-            Console.WriteLine("{0}", femaleNames[fIndex]);
-            }
+            // Display the result 
+            Console.Line("{0}\nlove", maleNames[mIndex]);
+            //Console.WriteLine("love");
+            Console.Line("{0}", femaleNames[fIndex]);
         }
     }
 }
